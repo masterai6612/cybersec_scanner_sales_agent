@@ -17,6 +17,9 @@ agents=(
   monscanner-pipeline-analyst
   monscanner-account-strategist
   monscanner-sales-coach
+  monscanner-pov-architect
+  monscanner-objection-annihilator
+  monscanner-compliance-mapper
 )
 
 installed=0
@@ -34,5 +37,5 @@ for agent in "${agents[@]}"; do
 done
 
 echo ""
-echo "Done! $installed/8 agents installed to $SKILLS_DIR"
+echo "Done! $installed/11 agents installed to $SKILLS_DIR"
 echo "Restart Gemini to pick up the new skills."
