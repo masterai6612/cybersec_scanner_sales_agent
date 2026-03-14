@@ -1,46 +1,38 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/bash
+# Install MonScanner sales agents into Antigravity (Gemini skills)
+# Usage: ./install-antigravity.sh
 
 SKILLS_DIR="$HOME/.gemini/antigravity/skills"
-TODAY="$(date +%Y-%m-%d)"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-COUNT=0
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SOURCE_DIR="$SCRIPT_DIR/antigravity"
 
-get_field() {
-  local field="$1" file="$2"
-  awk -v f="$field" '
-    /^---$/ { fm++; next }
-    fm == 1 && $0 ~ "^" f ": " { sub("^" f ": ", ""); print; exit }
-  ' "$file"
-}
+echo "Installing MonScanner sales agents to $SKILLS_DIR..."
 
-get_body() {
-  awk 'BEGIN{fm=0} /^---$/{fm++; next} fm>=2{print}' "$1"
-}
+agents=(
+  monscanner-outbound-strategist
+  monscanner-discovery-coach
+  monscanner-deal-strategist
+  monscanner-sales-engineer
+  monscanner-proposal-strategist
+  monscanner-pipeline-analyst
+  monscanner-account-strategist
+  monscanner-sales-coach
+)
 
-slugify() {
-  echo "$1" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//'
-}
-
-mkdir -p "$SKILLS_DIR"
-
-for f in "$SCRIPT_DIR"/monscanner-*.md; do
-  [ -f "$f" ] || continue
-
-  name="$(get_field "name" "$f")"
-  description="$(get_field "description" "$f")"
-  slug="monscanner-$(slugify "$name")"
-  body="$(get_body "$f")"
-
-  outdir="$SKILLS_DIR/$slug"
-  mkdir -p "$outdir"
-
-  printf '%s\n' "---" "name: ${slug}" "description: ${description}" "risk: low" "source: community" "date_added: '${TODAY}'" "---" "" > "$outdir/SKILL.md"
-  printf '%s\n' "$body" >> "$outdir/SKILL.md"
-
-  echo "[OK] Installed: $slug"
-  (( COUNT++ )) || true
+installed=0
+for agent in "${agents[@]}"; do
+  src="$SOURCE_DIR/$agent/SKILL.md"
+  dest="$SKILLS_DIR/$agent"
+  if [ -f "$src" ]; then
+    mkdir -p "$dest"
+    cp "$src" "$dest/SKILL.md"
+    echo "  ✓ $agent"
+    ((installed++))
+  else
+    echo "  ✗ $agent (source not found)"
+  fi
 done
 
 echo ""
-echo "Done. Installed $COUNT MonScanner skills to $SKILLS_DIR"
+echo "Done! $installed/8 agents installed to $SKILLS_DIR"
+echo "Restart Gemini to pick up the new skills."

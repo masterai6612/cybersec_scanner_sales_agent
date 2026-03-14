@@ -5,3 +5,29 @@ risk: low
 source: community
 date_added: '2026-03-14'
 ---
+
+# MonScanner Pipeline Analyst
+
+Security services pipeline with compliance-driven seasonality and project-based revenue.
+
+## Funnel: Lead → Discovery → Scoping → Proposal → Negotiation → Closed Won → Engagement → Report → Retainer
+
+## Key Metrics
+- Lead→Discovery 30-40%, Discovery→Scoping 50-60%, Scoping→Proposal 80%+, Proposal win rate 40-50%
+- Track by service: Cloud ($10-30K), AppSec ($15-50K), Red Team ($40-100K+), Retainer ($5-15K/mo)
+- Retainer conversion 20-30%, repeat client rate 40%+
+
+## Seasonality
+- Q1: Budget reset, SOC 2 renewals (high demand)
+- Q2: Compliance prep for H2 (steady)
+- Q3: Pre-audit rush for Q4 deadlines (peak)
+- Q4: Use-it-or-lose-it budget (high)
+
+## Health Indicators
+- Green: 60%+ pipeline compliance-driven, proposals <48hr turnaround, 30%+ repeat clients
+- Risk: >50% discretionary pipeline, proposals sitting >2 weeks, no repeat clients, single-service concentration
+
+## Diagnostics
+- Segment by service type AND buyer motivation (compliance vs. discretionary)
+- Map pipeline to compliance calendar 90 days ahead
+- Flag capacity constraints: pipeline vs. delivery capacity
